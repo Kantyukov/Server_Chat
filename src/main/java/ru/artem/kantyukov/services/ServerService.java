@@ -1,6 +1,6 @@
 package ru.artem.kantyukov.services;
 
-public interface ChatService {
+public interface ServerService extends Observable{
     void start();
 
 }

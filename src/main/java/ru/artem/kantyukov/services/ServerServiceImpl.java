@@ -2,12 +2,13 @@ package ru.artem.kantyukov.services;
 
 import lombok.SneakyThrows;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatServiceImpl implements ChatService, Observable{
+public class ServerServiceImpl implements ServerService{
     public static final int PORT =  8081;
     public final List <Observer> observers = new ArrayList<>();
 
@@ -22,7 +23,7 @@ public class ChatServiceImpl implements ChatService, Observable{
             Socket socket = serverSocket.accept();
 
             if (socket!=null){
-            Thread thread = new Thread (new ClientRunnable(socket));
+            Thread thread = new Thread (new ClientRunnable(socket, this));
             thread.start();
             }
 
@@ -41,7 +42,7 @@ public class ChatServiceImpl implements ChatService, Observable{
     }
 
     @Override
-    public void notifyObservers(String message) {
+    public void notifyObservers(String message) throws IOException {
         for (Observer observer: observers) {
             observer.notifyMe(message);
 

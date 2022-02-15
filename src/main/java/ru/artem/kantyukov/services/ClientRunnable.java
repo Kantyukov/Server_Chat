@@ -2,7 +2,7 @@ package ru.artem.kantyukov.services;
 
 
 
-import lombok.RequiredArgsConstructor;
+
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
@@ -11,13 +11,15 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-@RequiredArgsConstructor
+
 public class ClientRunnable implements Runnable, Observer {
 
     private static Socket socket;
+    private static ServerService serverService;
 
-    public ClientRunnable(Socket socket) {
+    public ClientRunnable(Socket socket, ServerServiceImpl serverService) {
         ClientRunnable.socket = socket;
+        ClientRunnable.serverService = serverService;
 
     }
 
@@ -26,10 +28,12 @@ public class ClientRunnable implements Runnable, Observer {
     @Override
     public void run() {
         System.out.println("Client connected");
+        serverService.addObserver(this);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         String messageFromClient;
         while ((messageFromClient = bufferedReader.readLine())!=null){
             System.out.println(messageFromClient);
+            serverService.notifyObservers(messageFromClient);
         }
 
     }

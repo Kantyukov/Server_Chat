@@ -1,16 +1,16 @@
 package ru.artem.kantyukov;
 
 
-import ru.artem.kantyukov.services.ChatService;
-import ru.artem.kantyukov.services.ChatServiceImpl;
+import ru.artem.kantyukov.services.ServerService;
+import ru.artem.kantyukov.services.ServerServiceImpl;
 
 
 public class Application {
 
     public static void main(String[] args)  {
 
-        ChatService chatService = new ChatServiceImpl();
-        chatService.start();
+        ServerService serverService = new ServerServiceImpl();
+        serverService.start();
 
 
         }
